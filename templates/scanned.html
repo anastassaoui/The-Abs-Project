@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../static/index.css" />
+    <link rel="stylesheet" type="text/css" href="../index.css" />
+    <title>Scan Success</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    style="background-image: url(&quot;../static/1.png&quot;)"
+  >
+    <!-- Header -->
+    <header
+      class="border h-24 bg-yellow-800 border-yellow-800 flex justify-between items-center p-4 sm:p-6"
+    >
+      <h1
+        class="text-xl sm:text-5xl md:text-6xl font-extrabold rounded-lg px-4 py-2 bg-black text-white hover:bg-amber-500 hover:border-yellow-800 border-black transition duration-300"
+      >
+        GESTION D'ABSENCE
+      </h1>
+
+      <nav class="mt-2 sm:mt-0">
+        <ul
+          class="flex flex-col sm:flex-row sm:space-x-10 space-y-2 sm:space-y-0"
+        >
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('student') }}">BACK</a>
+          </li>
+
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('aboutus') }}">ABOUT US</a>
+          </li>
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('index') }}"> DISCONNECT</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow flex items-center justify-center p-4">
+      <div
+        class="text-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+        role="alert"
+      >
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline"
+          >You have successfully scanned the QR code.</span
+        >
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-800 text-white py-3 mt-auto">
+      <div class="container mx-auto text-center text-sm sm:text-base">
+        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

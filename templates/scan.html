@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../static/index.css" />
+    <link rel="stylesheet" type="text/css" href="../index.css" />
+    <title>QR Code Scan</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+  </head>
+
+  <body
+    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    style="background-image: url(&quot;../static/1.png&quot;)"
+  >
+    <!-- Header -->
+    <header
+      class="border h-24 bg-yellow-800 border-yellow-800 flex justify-between items-center p-4 sm:p-6"
+    >
+      <h1
+        class="text-xl sm:text-5xl md:text-6xl font-extrabold rounded-lg px-4 py-2 bg-black text-white hover:bg-amber-500 hover:border-yellow-800 border-black transition duration-300"
+      >
+        GESTION D'ABSENCE
+      </h1>
+
+      <nav class="mt-2 sm:mt-0">
+        <ul
+          class="flex flex-col sm:flex-row sm:space-x-10 space-y-2 sm:space-y-0"
+        >
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('student') }}">BACK</a>
+          </li>
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('index') }}">DISCONNECT</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow p-4 flex flex-col items-center">
+      <h1 class="font-extrabold text-2xl sm:text-3xl mt-5 text-center">
+        Welcome!!
+      </h1>
+      <p class="font-bold text-lg sm:text-xl mt-5 text-center">
+        To register your attendance, tap the button below to activate your
+        camera and scan the QR code displayed on the big screen.
+      </p>
+
+      <!-- Activate Camera Button -->
+      <div class="mt-10">
+        <button
+          id="start-scan"
+          class="bg-yellow-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-yellow-700"
+        >
+          Activate Camera
+        </button>
+      </div>
+
+      <!-- Camera and QR Code Scanner -->
+      <div id="scanner-container" class="mt-10 hidden">
+        <video
+          id="preview"
+          class="border-2 border-black rounded-lg"
+          width="320"
+          height="240"
+        ></video>
+      </div>
+
+      <!-- QR Code Scanning Results -->
+      <div id="result-container" class="mt-10 hidden">
+        <h2 class="text-lg font-bold">Scanned Code:</h2>
+        <p id="result" class="text-lg font-medium"></p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-800 text-white py-3 mt-auto">
+      <div class="container mx-auto text-center text-sm sm:text-base">
+        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const codeReader = new ZXing.BrowserQRCodeReader();
+      const startScanButton = document.getElementById("start-scan");
+      const scannerContainer = document.getElementById("scanner-container");
+      const resultContainer = document.getElementById("result-container");
+      const resultElement = document.getElementById("result");
+      const previewElement = document.getElementById("preview");
+
+      startScanButton.addEventListener("click", () => {
+        scannerContainer.classList.remove("hidden");
+        codeReader.decodeFromVideoDevice(null, "preview", (result, error) => {
+          if (result) {
+            resultElement.textContent = result.text;
+            resultContainer.classList.remove("hidden");
+            scannerContainer.classList.add("hidden");
+          }
+          if (error) {
+            console.error(error);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

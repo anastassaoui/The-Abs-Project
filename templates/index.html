@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../static/index.css" />
+    <link rel="stylesheet" type="text/css" href="../index.css" />
+    <title>Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    style="background-image: url(&quot;../static/1.png&quot;)"
+  >
+    <!-- Header -->
+    <header
+      class="border h-24 bg-yellow-800 border-yellow-800 flex justify-between items-center p-4 sm:p-6"
+    >
+      <h1
+        class="text-xl sm:text-5xl md:text-6xl font-extrabold rounded-lg px-4 py-2 bg-black text-white hover:bg-amber-500 hover:border-yellow-800 border-black transition duration-300"
+      >
+        GESTION D'ABSENCE
+      </h1>
+
+      <nav class="mt-2 sm:mt-0">
+        <ul
+          class="flex flex-col sm:flex-row sm:space-x-10 space-y-2 sm:space-y-0"
+        >
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('signin') }}">LOGIN</a>
+          </li>
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('aboutus') }}">ABOUT US</a>
+          </li>
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('contactus') }}">CONTACT US</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow p-4">
+      <h1 class="font-extrabold text-2xl sm:text-3xl mt-5">Welcome!!</h1>
+      <p class="font-bold text-lg sm:text-xl mt-5 hover:text-yellow-700">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
+        adipisci corrupti, sed ad neque rem facere totam doloribus tempora
+        repellat ex. Dicta eaque hic impedit quo soluta obcaecati perferendis
+        ullam!
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row sm:space-x-6 space-y-6 sm:space-y-0 mx-auto mt-10"
+      >
+        <div
+          class="border-2 rounded-2xl border-black p-4 sm:p-6 hover:bg-amber-800 w-full sm:w-96"
+        >
+          <h1
+            class="font-extrabold text-2xl sm:text-3xl text-center hover:underline"
+          >
+            XXXXXX
+          </h1>
+          <p
+            class="font-bold text-base sm:text-lg mt-5 text-center hover:text-yellow-700"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+            laudantium suscipit atque, vel, nemo id quod iste ipsum quaerat
+            fugit inventore odit necessitatibus expedita quas error distinctio!
+            Asperiores, dolorem possimus.
+          </p>
+        </div>
+
+        <div
+          class="border-2 rounded-2xl border-black p-4 sm:p-6 hover:bg-amber-800 w-full sm:w-96"
+        >
+          <h1
+            class="font-extrabold text-2xl sm:text-3xl text-center hover:underline"
+          >
+            XXXXXX
+          </h1>
+          <p
+            class="font-bold text-base sm:text-lg mt-5 text-center hover:text-yellow-700"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+            laudantium suscipit atque, vel, nemo id quod iste ipsum quaerat
+            fugit inventore odit necessitatibus expedita quas error distinctio!
+            Asperiores, dolorem possimus.
+          </p>
+        </div>
+
+        <div
+          class="border-2 rounded-2xl border-black p-4 sm:p-6 hover:bg-amber-800 w-full sm:w-96"
+        >
+          <h1
+            class="font-extrabold text-2xl sm:text-3xl text-center hover:underline"
+          >
+            XXXXX
+          </h1>
+          <p
+            class="font-bold text-base sm:text-lg mt-5 text-center hover:text-yellow-700"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+            laudantium suscipit atque, vel, nemo id quod iste ipsum quaerat
+            fugit inventore odit necessitatibus expedita quas error distinctio!
+            Asperiores, dolorem possimus.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-800 text-white py-3 mt-auto">
+      <div class="container mx-auto text-center text-sm sm:text-base">
+        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

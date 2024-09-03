@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../static/index.css" />
+    <link rel="stylesheet" type="text/css" href="../index.css" />
+    <title>Student History</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    style="background-image: url(&quot;../static/1.png&quot;)"
+  >
+    <!-- Header -->
+    <header
+      class="border h-24 bg-yellow-800 border-yellow-800 flex justify-between items-center p-4 sm:p-6"
+    >
+      <h1
+        class="text-xl sm:text-5xl md:text-6xl font-extrabold rounded-lg px-4 py-2 bg-black text-white hover:bg-amber-500 hover:border-yellow-800 border-black transition duration-300"
+      >
+        GESTION D'ABSENCE
+      </h1>
+
+      <nav class="mt-2 sm:mt-0">
+        <ul
+          class="flex flex-col sm:flex-row sm:space-x-10 space-y-2 sm:space-y-0"
+        >
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('teacher') }}">BACK</a>
+          </li>
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('contactus') }}">CONTACT US</a>
+          </li>
+          <li
+            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+          >
+            <a href="{{ url_for('index') }}">DISCONNECT</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow p-4">
+      <div class="container mx-auto mt-9 rounded-lg bg-white shadow-md">
+        <h1
+          class="ml-7 mt-4 mb-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-black"
+        >
+          Student's Attendance
+        </h1>
+
+        <!-- Table -->
+        <div class="mt-6 mx-7">
+          <table class="min-w-full bg-white rounded-lg shadow-md mt-6">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr class="border-b border-gray-200">
+                <th class="p-3 text-center font-semibold">N STUDENT</th>
+                <th class="p-3 text-center font-semibold">First Name</th>
+                <th class="p-3 text-center font-semibold">Last Name</th>
+                <th class="p-3 text-center font-semibold">Date</th>
+                <th class="p-3 text-center font-semibold">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example rows; replace these with your dynamic content -->
+              <tr class="border-b border-gray-200">
+                <td class="p-3 text-center">XXXXX</td>
+                <td class="p-3 text-center">XXXXX</td>
+                <td class="p-3 text-center">XXX</td>
+                <td class="p-3 text-center">2024-08-19</td>
+                <td class="p-3 text-center">14:30</td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="p-3 text-center">XXXXX</td>
+                <td class="p-3 text-center">XXX</td>
+                <td class="p-3 text-center">XXX</td>
+                <td class="p-3 text-center">2024-08-20</td>
+                <td class="p-3 text-center">09:15</td>
+              </tr>
+              <!-- End example rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-800 text-white py-3 mt-auto">
+      <div class="container mx-auto text-center text-sm sm:text-base">
+        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
