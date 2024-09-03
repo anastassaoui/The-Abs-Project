@@ -1,34 +1,87 @@
-from flask import Flask, render_template, redirect, url_for, request, send_file
-import qrcode 
+from flask import Flask, render_template, redirect, url_for, request, g, session, abort
+import qrcode
 import io
+import os
 import uuid
+from werkzeug.security import generate_password_hash, check_password_hash
+import base64
+from database import get_db
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = os.urandom(24)
 # Dictionary to store QR code data
 qr_codes = {}
 
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
+
+def get_current_user():
+    """Retrieve the current user from the session."""
+    user_result = None
+    if 'user' in session:
+        user_email = session['user']
+        db = get_db()
+        user_cur = db.execute('''SELECT id, firstname, lastname, email, password, admin
+                                 FROM users 
+                                 WHERE email = ?''', [user_email])
+        user_result = user_cur.fetchone()
+    return user_result
+
+def check_admin():
+    """Check if the current user is an admin."""
+    user = get_current_user()
+    if user:
+        return user['admin'] == 1
+    return False
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    user = get_current_user()
+    return render_template('index.html', user=user)
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        # Add authentication logic here
-        return redirect(url_for('student'))
+        db = get_db()
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Retrieve user details including the admin status
+        user_cur = db.execute('''SELECT id, email, password, admin
+                                 FROM users
+                                 WHERE email = ?''', [email])
+        user_result = user_cur.fetchone()
+        
+        if user_result and check_password_hash(user_result['password'], password):
+            session['user'] = user_result['email']
+            
+            # Check if the user is an admin
+            if user_result['admin']:
+                return redirect(url_for('teacher'))
+            else:
+                return redirect(url_for('student'))
+        else:
+            return '<h1>The password is incorrect!</h1>'
+        
     return render_template('signin.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        # Add signup logic here
+        db = get_db()
+        
+        hashed_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256')
+        
+        db.execute('''INSERT INTO users (firstname, lastname, email, password, admin)
+                       VALUES (?, ?, ?, ?, ?)''',
+                       [request.form['firstname'],
+                        request.form['lastname'],
+                        request.form['email'],
+                        hashed_password,
+                        '0'])  # Default admin status for new users
+        db.commit()
         return redirect(url_for('signedup'))
     return render_template('signup.html')
 
@@ -42,30 +95,55 @@ def contactus():
 
 @app.route('/student')
 def student():
-    return render_template('student.html')
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+    return render_template('student.html', user=user)
 
 @app.route('/scan')
 def scan():
-    return render_template('scan.html')
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+    return render_template('scan.html', user=user)
 
 @app.route('/scanned')
 def scanned():
-    return render_template('scanned.html')
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+    return render_template('scanned.html', user=user)
 
 @app.route('/historystudent')
 def historystudent():
-    return render_template('historystudent.html')
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+    return render_template('historystudent.html', user=user)
 
 @app.route('/historyteacher')
 def historyteacher():
-    return render_template('historyteacher.html')
+    if not check_admin():
+        return abort(403)  # Forbidden access
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+    return render_template('historyteacher.html', user=user)
 
 @app.route('/teacher')
 def teacher():
-    return render_template('teacher.html')
+    if not check_admin():
+        return abort(403)  # Forbidden access
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+    return render_template('teacher.html', user=user)
 
 @app.route('/activate')
 def activate():
+    if not check_admin():
+        return abort(403)  # Forbidden access
+    
     # Generate a unique identifier for the QR code
     unique_id = str(uuid.uuid4())
     
@@ -85,10 +163,14 @@ def activate():
     img.save(img_io)
     img_io.seek(0)
     
+    # Convert image to base64 for embedding in HTML
+    img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
+    
     # Store the unique ID in the session or database for validation
     qr_codes[unique_id] = True  # Example, store in a database in a real application
     
-    return send_file(img_io, mimetype='image/png', as_attachment=True, download_name=f"{unique_id}.png")
+    # Return QR code data as JSON
+    return {'qr_code_data': img_base64}
 
 @app.route('/scan/<unique_id>')
 def scan_qr(unique_id):
@@ -98,8 +180,6 @@ def scan_qr(unique_id):
         return "QR Code Validated"
     else:
         return "Invalid QR Code"
-
-
 
 @app.route('/signedup')
 def signedup():
