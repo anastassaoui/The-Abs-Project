@@ -23,9 +23,12 @@ def get_current_user():
     if 'user' in session:
         user_email = session['user']
         db = get_db()
+        
         user_cur = db.execute('''SELECT id, firstname, lastname, email, password, admin
                                  FROM users 
-                                 WHERE email = ?''', [user_email])
+                                 WHERE email = ?''', 
+                                 [user_email])
+        
         user_result = user_cur.fetchone()
     return user_result
 
@@ -43,15 +46,20 @@ def index():
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
+    user = get_current_user()
     if request.method == 'POST':
         db = get_db()
         email = request.form['email']
         password = request.form['password']
         
+        
         # Retrieve user details including the admin status
         user_cur = db.execute('''SELECT id, email, password, admin
                                  FROM users
-                                 WHERE email = ?''', [email])
+                                 WHERE email = ?''',
+                                 [email])
+        
+        
         user_result = user_cur.fetchone()
         
         if user_result and check_password_hash(user_result['password'], password):
@@ -65,10 +73,11 @@ def signin():
         else:
             return '<h1>The password is incorrect!</h1>'
         
-    return render_template('signin.html')
+    return render_template('signin.html',user = user)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    user = get_current_user()
     if request.method == 'POST':
         db = get_db()
         
@@ -81,9 +90,10 @@ def signup():
                         request.form['email'],
                         hashed_password,
                         '0'])  # Default admin status for new users
+        
         db.commit()
         return redirect(url_for('signedup'))
-    return render_template('signup.html')
+    return render_template('signup.html',user= user)
 
 @app.route('/aboutus')
 def aboutus():
@@ -151,8 +161,8 @@ def activate():
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
+        box_size=20,
+        border=8,
     )
     qr.add_data(unique_id)
     qr.make(fit=True)
