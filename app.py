@@ -1,16 +1,14 @@
 from flask import Flask, render_template, redirect, url_for, request, g, session, abort
-import qrcode
-import io
 import os
 import uuid
+from sqlalchemy import DATETIME
 from werkzeug.security import generate_password_hash, check_password_hash
-import base64
 from database import get_db
+import datetime
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
-# Dictionary to store QR code data
-qr_codes = {}
 
 @app.teardown_appcontext
 def close_db(error):
@@ -28,7 +26,6 @@ def get_current_user():
                                  FROM users 
                                  WHERE email = ?''', 
                                  [user_email])
-        
         user_result = user_cur.fetchone()
     return user_result
 
@@ -52,14 +49,11 @@ def signin():
         email = request.form['email']
         password = request.form['password']
         
-        
         # Retrieve user details including the admin status
         user_cur = db.execute('''SELECT id, email, password, admin
                                  FROM users
                                  WHERE email = ?''',
                                  [email])
-        
-        
         user_result = user_cur.fetchone()
         
         if user_result and check_password_hash(user_result['password'], password):
@@ -73,14 +67,13 @@ def signin():
         else:
             return '<h1>The password is incorrect!</h1>'
         
-    return render_template('signin.html',user = user)
+    return render_template('signin.html', user=user)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     user = get_current_user()
     if request.method == 'POST':
         db = get_db()
-        
         hashed_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256')
         
         db.execute('''INSERT INTO users (firstname, lastname, email, password, admin)
@@ -93,7 +86,7 @@ def signup():
         
         db.commit()
         return redirect(url_for('signedup'))
-    return render_template('signup.html',user= user)
+    return render_template('signup.html', user=user)
 
 @app.route('/aboutus')
 def aboutus():
@@ -110,19 +103,12 @@ def student():
         return redirect(url_for('signin'))  # Redirect if not signed in
     return render_template('student.html', user=user)
 
-@app.route('/scan')
-def scan():
+@app.route('/attendance')
+def attendance():
     user = get_current_user()
     if not user:
         return redirect(url_for('signin'))  # Redirect if not signed in
-    return render_template('scan.html', user=user)
-
-@app.route('/scanned')
-def scanned():
-    user = get_current_user()
-    if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
-    return render_template('scanned.html', user=user)
+    return render_template('attendance.html', user=user)
 
 @app.route('/historystudent')
 def historystudent():
@@ -149,51 +135,68 @@ def teacher():
         return redirect(url_for('signin'))  # Redirect if not signed in
     return render_template('teacher.html', user=user)
 
-@app.route('/activate')
-def activate():
+@app.route('/generate_code')
+def generate_code():
     if not check_admin():
         return abort(403)  # Forbidden access
-    
-    # Generate a unique identifier for the QR code
-    unique_id = str(uuid.uuid4())
-    
-    # Generate the QR code
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=20,
-        border=8,
-    )
-    qr.add_data(unique_id)
-    qr.make(fit=True)
-    img = qr.make_image(fill='black', back_color='white')
-    
-    # Save QR code image in memory
-    img_io = io.BytesIO()
-    img.save(img_io)
-    img_io.seek(0)
-    
-    # Convert image to base64 for embedding in HTML
-    img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
-    
-    # Store the unique ID in the session or database for validation
-    qr_codes[unique_id] = True  # Example, store in a database in a real application
-    
-    # Return QR code data as JSON
-    return {'qr_code_data': img_base64}
 
-@app.route('/scan/<unique_id>')
-def scan_qr(unique_id):
-    # Validate the QR code
-    if unique_id in qr_codes:
-        del qr_codes[unique_id]  # Optionally remove the QR code after scanning
-        return "QR Code Validated"
-    else:
-        return "Invalid QR Code"
+    # Generate a random code
+    code = str(uuid.uuid4().hex[:6].upper())  # 6-character random code
+
+    db = get_db()
+    
+    # Insert the generated code with a timestamp
+    db.execute('''INSERT INTO temp_codes (code, generated_at)
+                   VALUES (?, ?)''', 
+                   [code, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
+    db.commit()
+    
+    return render_template('teacher.html', code=code)
+
+
+
+
+@app.route('/process_code', methods=['POST'])
+def process_code():
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('signin'))  # Redirect if not signed in
+
+    code = request.form['code']
+    db = get_db()
+    
+    # Fetch the most recent code entry from temp_codes
+    code_record = db.execute('''SELECT code, generated_at
+                               FROM temp_codes
+                               WHERE code = ?
+                               ORDER BY generated_at DESC
+                               LIMIT 1''', [code]).fetchone()
+    
+    if code_record:
+        generated_code = code_record['code']
+        generated_time = datetime.datetime.strptime(code_record['generated_at'], '%Y-%m-%d %H:%M:%S')
+        current_time = datetime.datetime.now()
+        
+        if code == generated_code and (current_time - generated_time).total_seconds() <= 20:
+            # Insert the attendance record with the current user id
+            db.execute('''INSERT INTO presence (userid, date, scannedat)
+                           VALUES (?, DATE('now'), DATETIME('now'))''',
+                       [user['id']])
+            db.commit()
+            
+            # Optionally remove the used code from temp_codes
+            db.execute('''DELETE FROM temp_codes WHERE code = ?''', [code])
+            db.commit()
+
+            return '<h1>Code Validated Successfully! Your attendance has been recorded.</h1>'
+    
+    return '<h1>Invalid or Expired Code</h1>'
+
+
 
 @app.route('/signedup')
 def signedup():
     return render_template('signedup.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
