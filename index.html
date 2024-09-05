@@ -6,7 +6,150 @@
     <link rel="stylesheet" href="tailwind.css" />
     <title>Document</title>
   </head>
-  <body>
-    <h1 class="text-7xl">hello tailwind</h1>
+  <body
+    class="md:bg-slate-400 md:h-[900px] md:w-[1900px] bg-yellow-200 h-[600px] w-[200px]"
+  >
+    <!--header-->
+    <header
+      class="md:bg-red-500 md:h-[102px] md:w-[1920px] bg-red-300 h-[110px] w-[420px] flex"
+    >
+      <!--first element of header-->
+      <div class="md:flex md:space-x-16">
+        <h1
+          class="font-extrabold text-4xl capitalize pl-[10px] md:hover:underline hover:text-white duration-500 md:mt-[6px] md:text-7xl"
+        >
+          gestion
+        </h1>
+        <h1
+          class="font-extrabold text-4xl pt-2 capitalize pl-[10px] hover:scale-110 hover:text-white duration-1000 md:text-7xl"
+        >
+          d'Absence
+        </h1>
+      </div>
+      <!--second element of header-->
+      <div class="mt-[12px]">
+        <ul
+          class="flex flex-col ml-[90px] md:ml-[600px] md:flex-row md:space-x-16 md:space-y-6"
+        >
+          <li
+            class="font-extrabold hover:underline duration-700 hover:scale-105 md:text-3xl md:mt-[25px] flex space-x-3"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 48 48"
+            >
+              <path
+                d="M24 4C15.44 4 8.116 9.39 5.27 16.973a1.5 1.5 0 1 0 2.808 1.054C10.495 11.59 16.7 7 24 7c9.406 0 17 7.594 17 17s-7.594 17-17 17c-7.3 0-13.505-4.589-15.922-11.027a1.5 1.5 0 1 0-2.808 1.054C8.116 38.611 15.44 44 24 44c11.028 0 20-8.972 20-20S35.028 4 24 4m-.516 12.484a1.5 1.5 0 0 0-1.045 2.577l3.438 3.437-20.375-.018a1.5 1.5 0 1 0-.004 3l20.383.018-3.442 3.441a1.5 1.5 0 1 0 2.122 2.122l6-6a1.5 1.5 0 0 0 0-2.122l-6-6a1.5 1.5 0 0 0-1.077-.455"
+              />
+            </svg>
+            <a href="#">LogIn</a>
+          </li>
+          <li
+            class="font-extrabold hover:underline duration-700 hover:scale-105 md:text-3xl flex space-x-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 48 48"
+            >
+              <path
+                d="M24 4C12.972 4 4 12.972 4 24s8.972 20 20 20 20-8.972 20-20S35.028 4 24 4m0 3c9.407 0 17 7.593 17 17s-7.593 17-17 17S7 33.407 7 24 14.593 7 24 7m-6 9.5a2.5 2.5 0 0 0 0 5 2.5 2.5 0 0 0 0-5m12 0a2.5 2.5 0 0 0 0 5 2.5 2.5 0 0 0 0-5M15.773 27.984a1.5 1.5 0 0 0-1.191 2.444A11.97 11.97 0 0 0 24 35a11.97 11.97 0 0 0 9.418-4.572 1.5 1.5 0 1 0-2.357-1.856A8.95 8.95 0 0 1 24 32a8.95 8.95 0 0 1-7.06-3.428 1.5 1.5 0 0 0-1.167-.588"
+              />
+            </svg>
+            <a href="#">AboutUs</a>
+          </li>
+          <li
+            class="font-extrabold hover:underline duration-700 hover:scale-105 md:text-3xl flex space-x-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 48 48"
+            >
+              <path
+                d="M31.16 3.998a7.7 7.7 0 0 0-1.935.272c-5.666 1.55-10.679 6.299-15.08 13.773-4.408 7.485-6.103 14.133-4.622 19.752.666 2.526 2.636 4.528 5.159 5.273l2.367.702c2.646.783 5.508-.483 6.656-2.989l1.832-3.992a5.44 5.44 0 0 0-1.283-6.27l-3.035-2.773a.5.5 0 0 1-.158-.3v-.003c-.026-.222-.067-.3.105-.96.173-.662.601-1.78 1.61-3.493.938-1.595 1.816-2.71 2.45-3.261.357-.308.76-.54.934-.49h.002l4.072 1.22c2.261.68 4.717-.129 6.112-2.021l.002-.002 2.6-3.534h.001c1.629-2.213 1.326-5.328-.69-7.199l-1.798-1.672a7.6 7.6 0 0 0-3.387-1.814 7.7 7.7 0 0 0-1.914-.219M31.193 7c.395-.003.788.044 1.17.137.764.186 1.48.558 2.057 1.093l1.799 1.67c.92.855 1.05 2.223.312 3.225l-2.6 3.533a2.59 2.59 0 0 1-2.833.928l-4.09-1.225-.004-.002c-1.959-.571-3.4.807-3.742 1.104h-.002v.002c-1.057.918-2.037 2.249-3.07 4.004-1.108 1.88-1.661 3.233-1.928 4.256a6 6 0 0 0-.182 2.058 3.5 3.5 0 0 0 1.113 2.176l3.036 2.775c.8.733 1.025 1.837.582 2.803h-.002l-1.83 3.994c-.516 1.126-1.846 1.728-3.079 1.364l-2.367-.702v-.002c-1.521-.449-2.719-1.678-3.11-3.16-1.183-4.49.125-10.363 4.307-17.465 4.177-7.091 8.707-11.15 13.288-12.404A4.6 4.6 0 0 1 31.193 7"
+              />
+            </svg>
+            <a href="#">ContactUs</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <!--body content-->
+
+    <!--welcome content-->
+    <div
+      class="bg-green-600 h-[250px] w-[420px] mt-[60px] md:w-[1920px] md:h-[200px] border-2 rounded-lg px-2 py-3"
+    >
+      <div class="flex space-x-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="28"
+          viewBox="0 0 48 48"
+          class="hover:scale-125 duration-1000"
+        >
+          <path
+            d="M24 4C12.972 4 4 12.972 4 24s8.972 20 20 20 20-8.972 20-20S35.028 4 24 4m0 3c9.407 0 17 7.593 17 17s-7.593 17-17 17S7 33.407 7 24 14.593 7 24 7m0 8.012c-.686 0-1.371.152-1.998.457l-10.158 4.945a1.5 1.5 0 0 0 .058 2.725L16 24.919V30a1.5 1.5 0 0 0 .4 1.02S19.22 34 24 34s7.6-2.98 7.6-2.98A1.5 1.5 0 0 0 32 30v-5.078l2-.871V27.5a1.5 1.5 0 1 0 3 0V22a2 2 0 0 0-.006-.135 1.5 1.5 0 0 0-.838-1.45l-10.158-4.946A4.6 4.6 0 0 0 24 15.012m0 2.974c.22 0 .44.06.686.18l7.23 3.52-7.172 3.119-.058.027c-.493.24-.88.24-1.372 0l-.058-.027-7.172-3.12 7.23-3.519c.246-.12.466-.18.686-.18m-5 8.239 3.06 1.332-.058-.028c1.254.61 2.744.61 3.998 0l-.059.028L29 26.227v3.052c-.456.434-1.945 1.721-5 1.721s-4.544-1.287-5-1.72z"
+          />
+        </svg>
+        <h1
+          class="text-lg text-center font-extrabold hover:underline duration-1000 hover:text-white"
+        >
+          Welcome to the Attendance Tracker App:
+        </h1>
+      </div>
+      <p class="font-bold mt-[10px] text-center">
+        Our app streamlines attendance management for teachers and students.
+        Teachers can generate unique codes for real-time attendance tracking,
+        while students use these codes to mark their presence. The app
+        simplifies record-keeping with secure login and easy access to
+        attendance histories.
+      </p>
+    </div>
+
+    <!--boxes content-->
+    <div
+      class="bg-gray-200 h-[400px] w-[420px] mt-[20px] md:h-[400px] md:w-[1920px] flex flex-col space-y-12"
+    >
+      <div class="h-[220px] bg-purple-200 text-center">
+        <p class="mt-[33px]">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
+          cumque nihil harum.
+        </p>
+        <div class="flex text-center mt-[50px] ml-[133px]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="20"
+            fill="none"
+            class="mt-[6px]"
+          >
+            <path
+              fill="#1A1A1A"
+              d="M11.495 4.328a.5.5 0 0 0-.349.859l2.48 2.48h-7.46a.5.5 0 1 0 0 1h7.46l-2.48 2.48a.5.5 0 1 0 .707.707l3.334-3.334a.5.5 0 0 0 0-.707L11.853 4.48a.5.5 0 0 0-.358-.152M1.167 7.667a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1m1.666 0a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1m1.667 0a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1"
+            />
+          </svg>
+          <a class="font-bold" href="#">Get Started</a>
+        </div>
+      </div>
+
+      <div class="h-[220px] bg-purple-400 text-center">
+        <h1 class="mt-[12px]">About the Project</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat
+          aspernatur illo cupiditate ipsa, perferendis minima?
+        </p>
+        <a class="" href="#">About me</a>
+      </div>
+    </div>
+    <!--footer-->
+    <div
+      class="h-[50px] w-[420px] mt-[39px] bg-cyan-200 md:h-[50px] md:w-[1920px] md:mt-[139px]"
+    ></div>
   </body>
 </html>
