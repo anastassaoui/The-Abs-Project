@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, g, session, abort
 import os
 import uuid
-from sqlalchemy import DATETIME
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db
 import datetime
@@ -177,7 +176,7 @@ def process_code():
         generated_time = datetime.datetime.strptime(code_record['generated_at'], '%Y-%m-%d %H:%M:%S')
         current_time = datetime.datetime.now()
         
-        if code == generated_code and (current_time - generated_time).total_seconds() <= 20:
+        if code == generated_code and (current_time - generated_time).total_seconds() <= 15:  ####define interval here
             # Insert the attendance record with the current user id
             db.execute('''INSERT INTO presence (userid, date, scannedat)
                            VALUES (?, DATE('now'), DATETIME('now'))''',
