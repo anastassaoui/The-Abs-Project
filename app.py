@@ -4,13 +4,25 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db, close_db
 import datetime
+import psycopg2
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 
+
+
+
+
+
+
 @app.teardown_appcontext
 def teardown(error):
     close_db(error)
+
+
+
+
+
 
 def get_current_user():
     """Retrieve the current user from the session."""
@@ -25,6 +37,14 @@ def get_current_user():
         user_result = db.fetchone()
     return user_result
 
+
+
+
+
+
+
+
+
 def check_admin():
     """Check if the current user is an admin."""
     user = get_current_user()
@@ -32,10 +52,40 @@ def check_admin():
         return user['admin'] == 1
     return False
 
+
+
+
+
+
+
+
+
 @app.route('/')
 def index():
     user = get_current_user()
     return render_template('index.html', user=user)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
@@ -61,6 +111,17 @@ def signin():
         
     return render_template('signin.html', user=get_current_user())
 
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -83,13 +144,38 @@ def signup():
         
     return render_template('signup.html', user=get_current_user())
 
+
+
+
+
+
+
+
+
+
 @app.route('/aboutus')
 def aboutus():
     return '<h2>Add later</h2>'
 
+
+
+
+
+
+
+
+
 @app.route('/contactus')
 def contactus():
     return '<h2>Add later</h2>'
+
+
+
+
+
+
+
+
 
 @app.route('/student')
 def student():
@@ -98,6 +184,15 @@ def student():
         return redirect(url_for('signin'))
     return render_template('student.html', user=user)
 
+
+
+
+
+
+
+
+
+
 @app.route('/attendance')
 def attendance():
     user = get_current_user()
@@ -105,21 +200,85 @@ def attendance():
         return redirect(url_for('signin'))
     return render_template('attendance.html', user=user)
 
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/historystudent')
 def historystudent():
+    # Get the current user
     user = get_current_user()
     if not user:
         return redirect(url_for('signin'))
-    return render_template('historystudent.html', user=user)
+
+    # Fetch attendance records for the current user
+    db = get_db()
+    db.execute('''SELECT date, scannedat
+                  FROM presence
+                  WHERE userid = %s
+                  ORDER BY date DESC''', (user['id'],))
+    attendance_records = db.fetchall()
+
+    # Render the template with the fetched data
+    return render_template('historystudent.html', user=user, attendance_records=attendance_records)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/historyteacher')
 def historyteacher():
     if not check_admin():
         return abort(403)
+    
     user = get_current_user()
     if not user:
         return redirect(url_for('signin'))
-    return render_template('historyteacher.html', user=user)
+
+    # Fetch attendance records joined with user details
+    db = get_db()
+    db.execute('''
+        SELECT users.id as student_id, users.firstname, users.lastname, 
+               presence.date, presence.scannedat
+        FROM users
+        JOIN presence ON users.id = presence.userid
+        ORDER BY presence.date DESC, presence.scannedat DESC
+    ''')
+    attendance_records = db.fetchall()
+    
+    return render_template('historyteacher.html', user=user, attendance_records=attendance_records)
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/teacher')
 def teacher():
@@ -129,6 +288,15 @@ def teacher():
     if not user:
         return redirect(url_for('signin'))
     return render_template('teacher.html', user=user)
+
+
+
+
+
+
+
+
+
 
 @app.route('/generate_code')
 def generate_code():
@@ -145,6 +313,16 @@ def generate_code():
     db.connection.commit()
     
     return render_template('teacher.html', code=code)
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/process_code', methods=['POST'])
 def process_code():
@@ -188,9 +366,24 @@ def process_code():
 
 
 
+
+
+
+
+
+
+
 @app.route('/signedup')
 def signedup():
     return render_template('signedup.html')
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

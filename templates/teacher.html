@@ -13,39 +13,39 @@
   </head>
 
   <body
-    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    class="flex min-h-screen flex-col bg-cover bg-no-repeat"
     style="background-image: url(&quot;../static/1.png&quot;)"
   >
     <!-- Header -->
     <header
-      class="relative bg-yellow-800 border-b border-yellow-800 h-24 flex items-center px-4"
+      class="relative flex h-24 items-center border-b border-yellow-800 bg-yellow-800 px-4"
     >
       <!-- Title -->
       <h1
-        class="text-4xl font-extrabold text-white bg-black px-4 py-3 rounded-lg hover:bg-yellow-400"
+        class="rounded-lg bg-black px-4 py-3 text-4xl font-extrabold text-white hover:bg-yellow-400"
       >
         GESTION D'ABSENCE
       </h1>
 
       <!-- Navigation for Mobile and Desktop -->
       <nav
-        class="absolute top-0 left-0 w-full bg-yellow-800 sm:relative sm:bg-transparent sm:w-auto sm:left-auto sm:right-0 lg:ml-52"
+        class="absolute left-0 top-0 w-full bg-yellow-800 sm:relative sm:left-auto sm:right-0 sm:w-auto sm:bg-transparent lg:ml-52"
       >
         <ul
-          class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 p-4 sm:p-0"
+          class="flex flex-col space-y-2 p-4 sm:flex-row sm:space-x-6 sm:space-y-0 sm:p-0"
         >
           <li
-            class="text-white text-xl font-extrabold hover:underline hover:text-yellow-200"
+            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
           >
             <a href="{{ url_for('generate_code') }}">GENERATE CODE</a>
           </li>
           <li
-            class="text-white text-xl font-extrabold hover:underline hover:text-yellow-200"
+            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
           >
             <a href="{{ url_for('historyteacher') }}">ATTENDANCE HISTORY</a>
           </li>
           <li
-            class="text-white text-xl font-extrabold hover:underline hover:text-yellow-200"
+            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -54,16 +54,16 @@
     </header>
 
     <!-- Main content -->
-    <main class="flex-grow mt-24 px-4">
-      <h1 class="text-2xl font-bold mb-4">Generated Code</h1>
-      <p class="text-xl font-semibold mb-4">
+    <main class="mt-24 flex-grow px-4">
+      <h1 class="mb-4 text-2xl font-bold">Generated Code</h1>
+      <p class="mb-4 text-xl font-semibold">
         The current attendance code is:
         <span class="bg-yellow-200 px-2">{{ code }}</span>
       </p>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-yellow-800 text-white py-3">
+    <footer class="bg-yellow-800 py-3 text-white">
       <div class="container mx-auto text-center">
         <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
       </div>

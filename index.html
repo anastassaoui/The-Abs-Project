@@ -7,21 +7,21 @@
     <title>Document</title>
   </head>
   <body
-    class="md:bg-slate-400 md:h-[900px] md:w-[1900px] bg-yellow-200 h-[600px] w-[200px]"
+    class="h-[600px] w-[200px] bg-yellow-200 md:h-[900px] md:w-[1900px] md:bg-slate-400"
   >
     <!--header-->
     <header
-      class="md:bg-red-500 md:h-[102px] md:w-[1920px] bg-red-300 h-[110px] w-[420px] flex"
+      class="flex h-[110px] w-[420px] bg-red-300 md:h-[102px] md:w-[1920px] md:bg-red-500"
     >
       <!--first element of header-->
       <div class="md:flex md:space-x-16">
         <h1
-          class="font-extrabold text-4xl capitalize pl-[10px] md:hover:underline hover:text-white duration-500 md:mt-[6px] md:text-7xl"
+          class="pl-[10px] text-4xl font-extrabold capitalize duration-500 hover:text-white md:mt-[6px] md:text-7xl md:hover:underline"
         >
           gestion
         </h1>
         <h1
-          class="font-extrabold text-4xl pt-2 capitalize pl-[10px] hover:scale-110 hover:text-white duration-1000 md:text-7xl"
+          class="pl-[10px] pt-2 text-4xl font-extrabold capitalize duration-1000 hover:scale-110 hover:text-white md:text-7xl"
         >
           d'Absence
         </h1>
@@ -29,10 +29,10 @@
       <!--second element of header-->
       <div class="mt-[12px]">
         <ul
-          class="flex flex-col ml-[90px] md:ml-[600px] md:flex-row md:space-x-16 md:space-y-6 space-y-2"
+          class="ml-[90px] flex flex-col space-y-2 md:ml-[600px] md:flex-row md:space-x-16 md:space-y-6"
         >
           <li
-            class="font-extrabold hover:underline duration-700 hover:scale-105 md:text-3xl md:mt-[25px] flex space-x-3"
+            class="flex space-x-3 font-extrabold duration-700 hover:scale-105 hover:underline md:mt-[25px] md:text-3xl"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@
             <a href="#">LogIn</a>
           </li>
           <li
-            class="font-extrabold hover:underline duration-700 hover:scale-105 md:text-3xl flex space-x-2"
+            class="flex space-x-2 font-extrabold duration-700 hover:scale-105 hover:underline md:text-3xl"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@
             <a href="#">AboutUs</a>
           </li>
           <li
-            class="font-extrabold hover:underline duration-700 hover:scale-105 md:text-3xl flex space-x-2"
+            class="flex space-x-2 font-extrabold duration-700 hover:scale-105 hover:underline md:text-3xl"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +83,7 @@
 
     <!--welcome content-->
     <div
-      class="bg-green-600 h-[250px] w-[420px] mt-[60px] md:w-[1920px] md:h-[200px] border-2 rounded-lg px-3 mx-auto py-3"
+      class="mx-auto mt-[60px] h-[250px] w-[420px] rounded-lg border-2 bg-green-600 px-3 py-3 md:h-[200px] md:w-[1920px]"
     >
       <div class="flex space-x-1">
         <svg
@@ -91,19 +91,19 @@
           width="25"
           height="28"
           viewBox="0 0 48 48"
-          class="hover:scale-125 duration-1000"
+          class="duration-1000 hover:scale-125"
         >
           <path
             d="M24 4C12.972 4 4 12.972 4 24s8.972 20 20 20 20-8.972 20-20S35.028 4 24 4m0 3c9.407 0 17 7.593 17 17s-7.593 17-17 17S7 33.407 7 24 14.593 7 24 7m0 8.012c-.686 0-1.371.152-1.998.457l-10.158 4.945a1.5 1.5 0 0 0 .058 2.725L16 24.919V30a1.5 1.5 0 0 0 .4 1.02S19.22 34 24 34s7.6-2.98 7.6-2.98A1.5 1.5 0 0 0 32 30v-5.078l2-.871V27.5a1.5 1.5 0 1 0 3 0V22a2 2 0 0 0-.006-.135 1.5 1.5 0 0 0-.838-1.45l-10.158-4.946A4.6 4.6 0 0 0 24 15.012m0 2.974c.22 0 .44.06.686.18l7.23 3.52-7.172 3.119-.058.027c-.493.24-.88.24-1.372 0l-.058-.027-7.172-3.12 7.23-3.519c.246-.12.466-.18.686-.18m-5 8.239 3.06 1.332-.058-.028c1.254.61 2.744.61 3.998 0l-.059.028L29 26.227v3.052c-.456.434-1.945 1.721-5 1.721s-4.544-1.287-5-1.72z"
           />
         </svg>
         <h1
-          class="text-lg text-center font-extrabold hover:underline duration-1000 hover:text-white"
+          class="text-center text-lg font-extrabold duration-1000 hover:text-white hover:underline"
         >
           Welcome to the Attendance Tracker App:
         </h1>
       </div>
-      <p class="font-bold mt-[10px] text-center">
+      <p class="mt-[10px] text-center font-bold">
         Our app streamlines attendance management for teachers and students.
         Teachers can generate unique codes for real-time attendance tracking,
         while students use these codes to mark their presence. The app
@@ -114,14 +114,14 @@
 
     <!--boxes content-->
     <div
-      class="bg-gray-200 h-[400px] w-[420px] mt-[20px] md:h-[400px] md:w-[1920px] flex flex-col space-y-12"
+      class="mt-[20px] flex h-[400px] w-[420px] flex-col space-y-12 bg-gray-200 md:h-[400px] md:w-[1920px]"
     >
       <div class="h-[220px] bg-purple-200 text-center">
         <p class="mt-[33px]">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
           cumque nihil harum.
         </p>
-        <div class="flex text-center mt-[50px] ml-[133px]">
+        <div class="ml-[133px] mt-[50px] flex text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -140,7 +140,7 @@
 
       <div class="h-[220px] bg-purple-400 text-center">
         <h1 class="mt-[12px] font-extrabold">About the Project</h1>
-        <p class="font-bold mt-[10px]">
+        <p class="mt-[10px] font-bold">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat
           aspernatur illo cupiditate ipsa, perferendis minima?
         </p>
@@ -149,7 +149,7 @@
     </div>
     <!--footer-->
     <div
-      class="h-[50px] w-[420px] mt-[39px] bg-cyan-200 md:h-[50px] md:w-[1920px] md:mt-[139px]"
+      class="mt-[39px] h-[50px] w-[420px] bg-cyan-200 md:mt-[139px] md:h-[50px] md:w-[1920px]"
     ></div>
   </body>
 </html>

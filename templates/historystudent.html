@@ -13,35 +13,35 @@
   </head>
 
   <body
-    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    class="flex min-h-screen flex-col bg-cover bg-no-repeat"
     style="background-image: url(&quot;../static/1.png&quot;)"
   >
     <!-- Header -->
     <header
-      class="border h-24 bg-yellow-800 border-yellow-800 flex justify-between items-center p-4 sm:p-6"
+      class="flex h-24 items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6"
     >
       <h1
-        class="text-xl sm:text-5xl md:text-6xl font-extrabold rounded-lg px-4 py-2 bg-black text-white hover:bg-amber-500 hover:border-yellow-800 border-black transition duration-300"
+        class="rounded-lg border-black bg-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:bg-amber-500 sm:text-5xl md:text-6xl"
       >
         GESTION D'ABSENCE
       </h1>
 
       <nav class="mt-2 sm:mt-0">
         <ul
-          class="flex flex-col sm:flex-row sm:space-x-10 space-y-2 sm:space-y-0"
+          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0"
         >
           <li
-            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
           >
             <a href="{{ url_for('student') }}">BACK</a>
           </li>
           <li
-            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
           >
             <a href="{{ url_for('contactus') }}">CONTACT US</a>
           </li>
           <li
-            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -53,14 +53,14 @@
     <main class="flex-grow p-4">
       <div class="container mx-auto mt-9 rounded-lg bg-white shadow-md">
         <h1
-          class="ml-7 mt-4 mb-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-black"
+          class="mb-8 ml-7 mt-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-black"
         >
           Your Scan History
         </h1>
 
         <!-- Table -->
-        <div class="mt-6 mx-7">
-          <table class="min-w-full bg-white rounded-lg shadow-md mt-6">
+        <div class="mx-7 mt-6">
+          <table class="mt-6 min-w-full rounded-lg bg-white shadow-md">
             <thead class="bg-gray-100 text-gray-700">
               <tr class="border-b border-gray-200">
                 <th class="p-3 text-center font-semibold">Date</th>
@@ -68,16 +68,21 @@
               </tr>
             </thead>
             <tbody>
-              <!-- Example rows; replace these with your dynamic content -->
+              {% for record in attendance_records %}
               <tr class="border-b border-gray-200">
-                <td class="p-3 text-center">2024-08-19</td>
-                <td class="p-3 text-center">14:30</td>
+                <td class="p-3 text-center">{{ record['date'] }}</td>
+                <td class="p-3 text-center">
+                  {{ record['scannedat'].strftime('%H:%M') if
+                  record['scannedat'] else 'N/A' }}
+                </td>
               </tr>
-              <tr class="border-b border-gray-200">
-                <td class="p-3 text-center">2024-08-20</td>
-                <td class="p-3 text-center">09:15</td>
+              {% else %}
+              <tr>
+                <td colspan="2" class="p-3 text-center">
+                  No attendance records found.
+                </td>
               </tr>
-              <!-- End example rows -->
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -85,7 +90,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-yellow-800 text-white py-3 mt-auto">
+    <footer class="mt-auto bg-yellow-800 py-3 text-white">
       <div class="container mx-auto text-center text-sm sm:text-base">
         <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
       </div>

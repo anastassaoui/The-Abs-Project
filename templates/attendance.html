@@ -12,29 +12,29 @@
     />
   </head>
   <body
-    class="flex flex-col min-h-screen bg-cover bg-no-repeat"
+    class="flex min-h-screen flex-col bg-cover bg-no-repeat"
     style="background-image: url(&quot;../static/1.png&quot;)"
   >
     <!-- Header -->
     <header
-      class="border h-24 bg-yellow-800 border-yellow-800 flex justify-between items-center p-4 sm:p-6"
+      class="flex h-24 items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6"
     >
       <h1
-        class="text-xl sm:text-5xl md:text-6xl font-extrabold rounded-lg px-4 py-2 bg-black text-white hover:bg-amber-500 hover:border-yellow-800 border-black transition duration-300"
+        class="rounded-lg border-black bg-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:bg-amber-500 sm:text-5xl md:text-6xl"
       >
         GESTION D'ABSENCE
       </h1>
       <nav class="mt-2 sm:mt-0">
         <ul
-          class="flex flex-col sm:flex-row sm:space-x-10 space-y-2 sm:space-y-0"
+          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0"
         >
           <li
-            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
           >
             <a href="{{ url_for('student') }}">BACK</a>
           </li>
           <li
-            class="text-black text-base sm:text-xl font-extrabold hover:underline hover:text-yellow-200 sm:mx-2"
+            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -43,11 +43,11 @@
     </header>
 
     <!-- Main content -->
-    <main class="flex-grow p-4 flex flex-col items-center">
-      <h1 class="font-extrabold text-2xl sm:text-3xl mt-5 text-center">
+    <main class="flex flex-grow flex-col items-center p-4">
+      <h1 class="mt-5 text-center text-2xl font-extrabold sm:text-3xl">
         Welcome!
       </h1>
-      <p class="font-bold text-lg sm:text-xl mt-5 text-center">
+      <p class="mt-5 text-center text-lg font-bold sm:text-xl">
         To register your attendance, please enter the code displayed on the
         screen below:
       </p>
@@ -60,11 +60,11 @@
             name="code"
             placeholder="Enter Code"
             required
-            class="border-2 border-black rounded-lg py-2 px-4"
+            class="rounded-lg border-2 border-black px-4 py-2"
           />
           <button
             type="submit"
-            class="bg-yellow-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-yellow-700 mt-4"
+            class="mt-4 rounded-lg bg-yellow-600 px-4 py-2 text-white shadow-lg hover:bg-yellow-700"
           >
             Submit Code
           </button>
@@ -73,7 +73,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-yellow-800 text-white py-3 mt-auto">
+    <footer class="mt-auto bg-yellow-800 py-3 text-white">
       <div class="container mx-auto text-center text-sm sm:text-base">
         <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
       </div>
