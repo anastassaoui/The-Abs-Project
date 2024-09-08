@@ -2,17 +2,15 @@ from flask import Flask, render_template, redirect, url_for, request, g, session
 import os
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import get_db
+from database import get_db, close_db
 import datetime
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 
 @app.teardown_appcontext
-def close_db(error):
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
+def teardown(error):
+    close_db(error)
 
 def get_current_user():
     """Retrieve the current user from the session."""
@@ -20,12 +18,11 @@ def get_current_user():
     if 'user' in session:
         user_email = session['user']
         db = get_db()
-        
-        user_cur = db.execute('''SELECT id, firstname, lastname, email, password, admin
-                                 FROM users 
-                                 WHERE email = ?''', 
-                                 [user_email])
-        user_result = user_cur.fetchone()
+        db.execute('''SELECT id, firstname, lastname, email, password, admin
+                       FROM users 
+                       WHERE email = %s''', 
+                       (user_email,))
+        user_result = db.fetchone()
     return user_result
 
 def check_admin():
@@ -42,23 +39,19 @@ def index():
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    user = get_current_user()
     if request.method == 'POST':
         db = get_db()
         email = request.form['email']
         password = request.form['password']
         
-        # Retrieve user details including the admin status
-        user_cur = db.execute('''SELECT id, email, password, admin
-                                 FROM users
-                                 WHERE email = ?''',
-                                 [email])
-        user_result = user_cur.fetchone()
+        db.execute('''SELECT id, email, password, admin
+                       FROM users
+                       WHERE email = %s''', (email,))
+        user_result = db.fetchone()
         
         if user_result and check_password_hash(user_result['password'], password):
             session['user'] = user_result['email']
             
-            # Check if the user is an admin
             if user_result['admin']:
                 return redirect(url_for('teacher'))
             else:
@@ -66,26 +59,29 @@ def signin():
         else:
             return '<h1>The password is incorrect!</h1>'
         
-    return render_template('signin.html', user=user)
+    return render_template('signin.html', user=get_current_user())
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    user = get_current_user()
     if request.method == 'POST':
         db = get_db()
         hashed_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256')
         
-        db.execute('''INSERT INTO users (firstname, lastname, email, password, admin)
-                       VALUES (?, ?, ?, ?, ?)''',
-                       [request.form['firstname'],
+        try:
+            db.execute('''INSERT INTO users (firstname, lastname, email, password, admin)
+                           VALUES (%s, %s, %s, %s, %s)''',
+                       (request.form['firstname'],
                         request.form['lastname'],
                         request.form['email'],
                         hashed_password,
-                        '0'])  # Default admin status for new users
+                        '0'))  # Default admin status for new users
+            db.connection.commit()
+            return redirect(url_for('signedup'))
+        except psycopg2.IntegrityError:
+            db.connection.rollback()
+            return '<h1>Email already registered. Please use a different email.</h1>'
         
-        db.commit()
-        return redirect(url_for('signedup'))
-    return render_template('signup.html', user=user)
+    return render_template('signup.html', user=get_current_user())
 
 @app.route('/aboutus')
 def aboutus():
@@ -99,93 +95,92 @@ def contactus():
 def student():
     user = get_current_user()
     if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
+        return redirect(url_for('signin'))
     return render_template('student.html', user=user)
 
 @app.route('/attendance')
 def attendance():
     user = get_current_user()
     if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
+        return redirect(url_for('signin'))
     return render_template('attendance.html', user=user)
 
 @app.route('/historystudent')
 def historystudent():
     user = get_current_user()
     if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
+        return redirect(url_for('signin'))
     return render_template('historystudent.html', user=user)
 
 @app.route('/historyteacher')
 def historyteacher():
     if not check_admin():
-        return abort(403)  # Forbidden access
+        return abort(403)
     user = get_current_user()
     if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
+        return redirect(url_for('signin'))
     return render_template('historyteacher.html', user=user)
 
 @app.route('/teacher')
 def teacher():
     if not check_admin():
-        return abort(403)  # Forbidden access
+        return abort(403)
     user = get_current_user()
     if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
+        return redirect(url_for('signin'))
     return render_template('teacher.html', user=user)
 
 @app.route('/generate_code')
 def generate_code():
     if not check_admin():
-        return abort(403)  # Forbidden access
+        return abort(403)
 
-    # Generate a random code
-    code = str(uuid.uuid4().hex[:6].upper())  # 6-character random code
+    code = str(uuid.uuid4().hex[:6].upper())
 
     db = get_db()
     
-    # Insert the generated code with a timestamp
     db.execute('''INSERT INTO temp_codes (code, generated_at)
-                   VALUES (?, ?)''', 
-                   [code, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
-    db.commit()
+                   VALUES (%s, NOW())''', 
+                   (code,))
+    db.connection.commit()
     
     return render_template('teacher.html', code=code)
-
-
-
 
 @app.route('/process_code', methods=['POST'])
 def process_code():
     user = get_current_user()
     if not user:
-        return redirect(url_for('signin'))  # Redirect if not signed in
+        return redirect(url_for('signin'))
 
     code = request.form['code']
     db = get_db()
     
-    # Fetch the most recent code entry from temp_codes
-    code_record = db.execute('''SELECT code, generated_at
-                               FROM temp_codes
-                               WHERE code = ?
-                               ORDER BY generated_at DESC
-                               LIMIT 1''', [code]).fetchone()
+    db.execute('''SELECT code, generated_at
+                   FROM temp_codes
+                   WHERE code = %s
+                   ORDER BY generated_at DESC
+                   LIMIT 1''', (code,))
+    code_record = db.fetchone()
     
     if code_record:
         generated_code = code_record['code']
-        generated_time = datetime.datetime.strptime(code_record['generated_at'], '%Y-%m-%d %H:%M:%S')
-        current_time = datetime.datetime.now()
+        generated_time = code_record['generated_at']
+        current_time = datetime.datetime.utcnow()  # Use UTC time for consistency
+
+        print(f"Generated Code: {generated_code}")
+        print(f"Generated Time: {generated_time}")
+        print(f"Current Time: {current_time}")
+        print(f"Time Difference: {(current_time - generated_time).total_seconds()} seconds")
         
-        if code == generated_code and (current_time - generated_time).total_seconds() <= 15:  ####define interval here
-            # Insert the attendance record with the current user id
+        # Check if code matches and if the code was generated within the last 15 seconds
+        if code == generated_code and (current_time - generated_time).total_seconds() <= 3576.827592:
             db.execute('''INSERT INTO presence (userid, date, scannedat)
-                           VALUES (?, DATE('now'), DATETIME('now'))''',
-                       [user['id']])
-            db.commit()
+                           VALUES (%s, CURRENT_DATE, NOW())''',
+                       (user['id'],))
+            db.connection.commit()
             
-            # Optionally remove the used code from temp_codes
-            db.execute('''DELETE FROM temp_codes WHERE code = ?''', [code])
-            db.commit()
+            db.execute('''DELETE FROM temp_codes WHERE code = %s''', (code,))
+            db.connection.commit()
 
             return '<h1>Code Validated Successfully! Your attendance has been recorded.</h1>'
     
