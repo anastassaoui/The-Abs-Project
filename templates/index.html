@@ -18,30 +18,31 @@
   >
     <!-- Header -->
     <header
-      class="flex h-24 items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6"
+      class="group flex h-fit items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6 md:duration-1000 +
+      "
     >
       <h1
-        class="rounded-lg border-black bg-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:bg-amber-500 sm:text-5xl md:text-6xl"
+        class="rounded-lg cursor-pointer border-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:outline-2 group-hover:text-black group-hover:underline sm:text-5xl md:h-fit md:py-1 md:text-8xl md:duration-700"
       >
-        GESTION D'ABSENCE
+        Absence Management
       </h1>
 
       <nav class="mt-2 sm:mt-0">
         <ul
-          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0"
+          class="flex flex-col space-y-2 sm:flex-row sm:space-x-8 sm:space-y-0 md:mr-6 md:mt-6 md:space-x-16"
         >
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white hover:text-yellow-200 hover:underline group-hover:text-black group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
           >
             <a href="{{ url_for('signin') }}">LOGIN</a>
           </li>
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white hover:text-yellow-200 hover:underline group-hover:text-black group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
           >
             <a href="{{ url_for('aboutus') }}">ABOUT US</a>
           </li>
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white hover:text-yellow-200 hover:underline group-hover:text-black group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
           >
             <a href="{{ url_for('contactus') }}">CONTACT US</a>
           </li>
@@ -51,71 +52,64 @@
 
     <!-- Main content -->
     <main class="flex-grow p-4">
-      <h1 class="mt-5 text-2xl font-extrabold sm:text-3xl">Welcome!!</h1>
-      <p class="mt-5 text-lg font-bold hover:text-yellow-700 sm:text-xl">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
-        adipisci corrupti, sed ad neque rem facere totam doloribus tempora
-        repellat ex. Dicta eaque hic impedit quo soluta obcaecati perferendis
-        ullam!
+      <h1 class="mt-5 text-2xl font-extrabold sm:text-3xl cursor-pointer md:hover:text-yellow-900 md:hover:underline duration-700">Welcome:</h1>
+      <p class="mt-5 text-lg font-bold cursor-pointer sm:text-xl md:mt-6 mb-4">
+        We’re thrilled that you’re here and excited for you to try out our application.  we’ve put our heart into creating something special, and we hope you have a great time exploring it. Your feedback means the world to us, and we’re eager to hear about your experience. Enjoy using the app, and thank you for being part of our journey,the app is about:
       </p>
 
-      <div
-        class="mx-auto mt-10 flex flex-col space-y-6 sm:flex-row sm:space-x-6 sm:space-y-0"
-      >
-        <div
-          class="w-full rounded-2xl border-2 border-black p-4 hover:bg-amber-800 sm:w-96 sm:p-6"
-        >
-          <h1
-            class="text-center text-2xl font-extrabold hover:underline sm:text-3xl"
-          >
-            XXXXXX
-          </h1>
-          <p
-            class="mt-5 text-center text-base font-bold hover:text-yellow-700 sm:text-lg"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-            laudantium suscipit atque, vel, nemo id quod iste ipsum quaerat
-            fugit inventore odit necessitatibus expedita quas error distinctio!
-            Asperiores, dolorem possimus.
+
+
+
+      <div class="flex flex-col md:flex-row md:space-x-28 md:h-fit md:py-5 md:px-6  md:mt-11 space-y-2">
+
+
+
+        <div class="border-2 p-6 md:rounded-3xl md:hover:border-yellow-900  border-black md:h-fit md:text-2xl md:font-bold shadow-2xl
+         bg-gradient-to-r from-yellow-400  to-yellow-500 md:hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-700  hover:text-yellow-100 md:duration-1000
+          cursor-pointer rounded-xl mb-5">
+          <h1 class="md:flex justify-center underline font-extrabold text-3xl text-center mb-5">Teacher Side</h1>
+          <p class="text-center font-bold">
+            Our platform offers a dedicated interface for teachers, allowing them to manage attendance records efficiently and in real-time.
+            Teachers can generate unique codes for attendance, view detailed histories of student participation, and manage records with ease.
+             This streamlines the administrative tasks, letting educators focus more on teaching and less on paperwork.
+          </p> 
+        </div>
+
+
+
+
+       <div class="border-2 p-6 md:rounded-3xl md:hover:border-yellow-900  border-black md:h-fit md:text-2xl md:font-bold shadow-2xl
+        bg-gradient-to-r from-yellow-400  to-yellow-500 md:hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-700  hover:text-yellow-100 md:duration-1000 
+        cursor-pointer rounded-xl">
+          <h1 class="md:flex justify-center underline font-extrabold text-2xl md:text-3xl text-center mb-5">Absence Management Automation</h1>
+          <p class="text-center font-bold">
+            The app automates the process of attendance management, minimizing manual entry errors and ensuring data consistency.
+             With real-time updates and secure storage of data, it reduces the hassle of managing attendance sheets and improves accuracy. 
+             It's designed to integrate smoothly with existing systems, making it easy for institutions to adopt without any major changes.
           </p>
         </div>
 
-        <div
-          class="w-full rounded-2xl border-2 border-black p-4 hover:bg-amber-800 sm:w-96 sm:p-6"
-        >
-          <h1
-            class="text-center text-2xl font-extrabold hover:underline sm:text-3xl"
-          >
-            XXXXXX
-          </h1>
-          <p
-            class="mt-5 text-center text-base font-bold hover:text-yellow-700 sm:text-lg"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-            laudantium suscipit atque, vel, nemo id quod iste ipsum quaerat
-            fugit inventore odit necessitatibus expedita quas error distinctio!
-            Asperiores, dolorem possimus.
+
+
+
+        <div class="border-2 p-6 md:rounded-3xl md:hover:border-yellow-900  border-black md:h-fit md:text-2xl md:font-bold shadow-2xl
+         bg-gradient-to-r from-yellow-400  to-yellow-500 md:hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-700  hover:text-yellow-100 
+         md:duration-1000 cursor-pointer rounded-xl mt-10">
+          <h1 class="md:flex justify-center underline font-extrabold text-3xl text-center mb-5">Student Side</h1>
+          <p class="text-center font-bold">
+            Students benefit from a user-friendly interface that allows them to check their attendance records,
+             participate in classes by submitting codes, and keep track of their presence history. The system provides
+              transparency and helps students stay accountable for their attendance, promoting better engagement and responsibility
+               throughout the academic term.
           </p>
         </div>
 
-        <div
-          class="w-full rounded-2xl border-2 border-black p-4 hover:bg-amber-800 sm:w-96 sm:p-6"
-        >
-          <h1
-            class="text-center text-2xl font-extrabold hover:underline sm:text-3xl"
-          >
-            XXXXX
-          </h1>
-          <p
-            class="mt-5 text-center text-base font-bold hover:text-yellow-700 sm:text-lg"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-            laudantium suscipit atque, vel, nemo id quod iste ipsum quaerat
-            fugit inventore odit necessitatibus expedita quas error distinctio!
-            Asperiores, dolorem possimus.
-          </p>
-        </div>
+
+
+
       </div>
+
+    </div>
     </main>
 
     <!-- Footer -->
