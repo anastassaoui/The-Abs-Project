@@ -722,9 +722,9 @@ video {
   --tw-text-opacity: 1;
   color: rgb(254 249 195 / var(--tw-text-opacity));
 }
-.hover\:text-yellow-200:hover {
+.hover\:text-yellow-400:hover {
   --tw-text-opacity: 1;
-  color: rgb(254 240 138 / var(--tw-text-opacity));
+  color: rgb(250 204 21 / var(--tw-text-opacity));
 }
 .hover\:underline:hover {
   text-decoration-line: underline;
@@ -732,9 +732,9 @@ video {
 .hover\:outline-2:hover {
   outline-width: 2px;
 }
-.group:hover .group-hover\:text-black {
+.group:hover .group-hover\:text-yellow-500 {
   --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
+  color: rgb(234 179 8 / var(--tw-text-opacity));
 }
 .group:hover .group-hover\:underline {
   text-decoration-line: underline;
