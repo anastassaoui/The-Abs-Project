@@ -11,18 +11,9 @@ app.config['SECRET_KEY'] = os.urandom(24)
 
 
 
-
-
-
-
 @app.teardown_appcontext
 def teardown(error):
     close_db(error)
-
-
-
-
-
 
 def get_current_user():
     """Retrieve the current user from the session."""
@@ -38,13 +29,6 @@ def get_current_user():
     return user_result
 
 
-
-
-
-
-
-
-
 def check_admin():
     """Check if the current user is an admin."""
     user = get_current_user()
@@ -54,35 +38,10 @@ def check_admin():
 
 
 
-
-
-
-
-
-
 @app.route('/')
 def index():
     user = get_current_user()
     return render_template('index.html', user=user)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -114,14 +73,6 @@ def signin():
 
 
 
-
-
-
-
-
-
-
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -147,21 +98,9 @@ def signup():
 
 
 
-
-
-
-
-
-
 @app.route('/aboutus')
 def aboutus():
     return '<h2>Add later</h2>'
-
-
-
-
-
-
 
 
 
@@ -171,24 +110,12 @@ def contactus():
 
 
 
-
-
-
-
-
-
 @app.route('/student')
 def student():
     user = get_current_user()
     if not user:
         return redirect(url_for('signin'))
     return render_template('student.html', user=user)
-
-
-
-
-
-
 
 
 
@@ -203,23 +130,14 @@ def attendance():
 
 
 
-
-
-
-
-
-
-
-
-
 @app.route('/historystudent')
 def historystudent():
-    # Get the current user
+    # Get current user
     user = get_current_user()
     if not user:
         return redirect(url_for('signin'))
 
-    # Fetch attendance records for the current user
+    # Fetch 
     db = get_db()
     db.execute('''SELECT date, scannedat
                   FROM presence
@@ -227,21 +145,8 @@ def historystudent():
                   ORDER BY date DESC''', (user['id'],))
     attendance_records = db.fetchall()
 
-    # Render the template with the fetched data
+    # Rendertemplate with fetched data
     return render_template('historystudent.html', user=user, attendance_records=attendance_records)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -271,15 +176,6 @@ def historyteacher():
 
 
 
-
-
-
-
-
-
-
-
-
 @app.route('/teacher')
 def teacher():
     if not check_admin():
@@ -288,13 +184,6 @@ def teacher():
     if not user:
         return redirect(url_for('signin'))
     return render_template('teacher.html', user=user)
-
-
-
-
-
-
-
 
 
 
@@ -316,13 +205,7 @@ def generate_code():
 
 
 
-
-
-
-
-
-
-
+from datetime import timezone
 
 @app.route('/process_code', methods=['POST'])
 def process_code():
@@ -343,31 +226,31 @@ def process_code():
     if code_record:
         generated_code = code_record['code']
         generated_time = code_record['generated_at']
-        current_time = datetime.datetime.utcnow()  # Use UTC time for consistency
+
+        # If generated_time is naive, make it timezone-aware (assuming it's in UTC)
+        if generated_time.tzinfo is None:
+            generated_time = generated_time.replace(tzinfo=timezone.utc)
+
+        current_time = datetime.datetime.now(datetime.timezone.utc)  #timezone-aware ma 5dmat 7ta fa9satni
 
         print(f"Generated Code: {generated_code}")
         print(f"Generated Time: {generated_time}")
         print(f"Current Time: {current_time}")
         print(f"Time Difference: {(current_time - generated_time).total_seconds()} seconds")
-        
-        # Check if code matches and if the code was generated within the last 15 seconds
-        if code == generated_code and (current_time - generated_time).total_seconds() <= 3576.827592:
+
+        # Check if code matches and is within the time limit
+        if code == generated_code and (current_time - generated_time).total_seconds() <= 30:
             db.execute('''INSERT INTO presence (userid, date, scannedat)
                            VALUES (%s, CURRENT_DATE, NOW())''',
                        (user['id'],))
             db.connection.commit()
-            
+
             db.execute('''DELETE FROM temp_codes WHERE code = %s''', (code,))
             db.connection.commit()
 
             return '<h1>Code Validated Successfully! Your attendance has been recorded.</h1>'
-    
+
     return '<h1>Invalid or Expired Code</h1>'
-
-
-
-
-
 
 
 
@@ -376,12 +259,6 @@ def process_code():
 @app.route('/signedup')
 def signedup():
     return render_template('signedup.html')
-
-
-
-
-
-
 
 
 

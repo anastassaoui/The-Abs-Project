@@ -18,11 +18,11 @@
   >
     <!-- Header -->
     <header
-      class="relative flex h-24 items-center border-b border-yellow-800 bg-yellow-800 px-4"
+      class="relative flex h-24 items-center border-b border-yellow-800 bg-yellow-800 px-4 md:h-fit"
     >
       <!-- Title -->
       <h1
-        class="rounded-lg bg-black px-4 py-3 text-4xl font-extrabold text-white hover:bg-yellow-400"
+        class="rounded-lg  px-4 py-3 text-4xl font-extrabold text-white hover:text-yellow-400 md:duration-1000 cursor-pointer "
       >
         GESTION D'ABSENCE
       </h1>
@@ -32,20 +32,20 @@
         class="absolute left-0 top-0 w-full bg-yellow-800 sm:relative sm:left-auto sm:right-0 sm:w-auto sm:bg-transparent lg:ml-52"
       >
         <ul
-          class="flex flex-col space-y-2 p-4 sm:flex-row sm:space-x-6 sm:space-y-0 sm:p-0"
+          class="flex flex-col space-y-2 p-4 sm:flex-row sm:space-x-6 sm:space-y-0 sm:p-0 md:ml-96 md:space-x-36"
         >
           <li
-            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
+            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline duration-1000"
           >
             <a href="{{ url_for('generate_code') }}">GENERATE CODE</a>
           </li>
           <li
-            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
+            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline duration-1000"
           >
             <a href="{{ url_for('historyteacher') }}">ATTENDANCE HISTORY</a>
           </li>
           <li
-            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
+            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline duration-1000"
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -54,11 +54,11 @@
     </header>
 
     <!-- Main content -->
-    <main class="mt-24 flex-grow px-4">
-      <h1 class="mb-4 text-2xl font-bold">Generated Code</h1>
-      <p class="mb-4 text-xl font-semibold">
-        The current attendance code is:
-        <span class="bg-yellow-200 px-2">{{ code }}</span>
+    <main class="md:mt-48 flex-grow px-4 mt-36">
+      <h1 class="mb-4 md:text-2xl font-bold capitalize cursor-pointer font-extrabold">Generated Code bellow,Valide for 30 seconds</h1>
+      <p class="mb-4 md:text-7xl text-2xl font-semibold capitalize font-serif">
+        The current attendance code is :
+        <span class="bg-yellow-200 duration-1000 hover:bg-yellow-400 rounded-2xl border-2 border-black px-2">{{ code }}</span>
       </p>
     </main>
 

@@ -21,27 +21,27 @@
       class="flex h-24 items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6"
     >
       <h1
-        class="rounded-lg border-black bg-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:bg-amber-500 sm:text-5xl md:text-6xl"
+        class="rounded-lg border-black  px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 sm:text-5xl md:text-7xl"
       >
         GESTION D'ABSENCE
       </h1>
 
       <nav class="mt-2 sm:mt-0">
         <ul
-          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0"
+          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0 md:space-x-40"
         >
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline sm:mx-2 sm:text-xl duration-1000"
           >
             <a href="{{ url_for('teacher') }}">BACK</a>
           </li>
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline sm:mx-2 sm:text-xl duration-1000"
           >
             <a href="{{ url_for('contactus') }}">CONTACT US</a>
           </li>
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline sm:mx-2 sm:text-xl duration-1000"
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -51,7 +51,7 @@
 
     <!-- Main content -->
     <main class="flex-grow p-4">
-      <div class="container mx-auto mt-9 rounded-lg bg-white shadow-md">
+      <div class="container mx-auto mt-9 rounded-lg bg-yellow-100 shadow-md">
         <h1
           class="mb-8 ml-7 mt-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-black"
         >
@@ -60,24 +60,24 @@
 
         <!-- Table -->
         <div class="mx-7 mt-6">
-          <table class="mt-6 min-w-full rounded-lg bg-white shadow-md">
-            <thead class="bg-gray-100 text-gray-700">
-              <tr class="border-b border-gray-200">
-                <th class="p-3 text-center font-semibold">N STUDENT</th>
-                <th class="p-3 text-center font-semibold">First Name</th>
-                <th class="p-3 text-center font-semibold">Last Name</th>
-                <th class="p-3 text-center font-semibold">Date</th>
-                <th class="p-3 text-center font-semibold">Time</th>
+          <table class="mt-6 min-w-full rounded-lg bg-white shadow-xl ">
+            <thead class="bg-yellow-300 hover:bg-yellow-500 duration-1000 text-gray-700">
+              <tr class="border-2 border-yellow-400">
+                <th class="p-3 text-center font-bold hover:text-white duration-1000 border-2 border-yellow-400 ">N STUDENT</th>
+                <th class="p-3 text-center font-bold hover:text-white duration-1000 border-2 border-yellow-400 ">First Name</th>
+                <th class="p-3 text-center font-bold hover:text-white duration-1000 border-2 border-yellow-400 ">Last Name</th>
+                <th class="p-3 text-center font-bold hover:text-white duration-1000 border-2 border-yellow-400 ">Date</th>
+                <th class="p-3 text-center font-bold hover:text-white duration-1000 border-2 border-yellow-400 ">Time</th>
               </tr>
             </thead>
             <tbody>
               {% for record in attendance_records %}
               <tr class="border-b border-gray-200">
-                <td class="p-3 text-center">{{ record.student_id }}</td>
-                <td class="p-3 text-center">{{ record.firstname }}</td>
-                <td class="p-3 text-center">{{ record.lastname }}</td>
-                <td class="p-3 text-center">{{ record.date }}</td>
-                <td class="p-3 text-center">
+                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">{{ record.student_id }}</td>
+                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">{{ record.firstname }}</td>
+                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">{{ record.lastname }}</td>
+                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">{{ record.date }}</td>
+                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">
                   {{ record.scannedat.strftime('%H:%M') if record.scannedat else
                   'N/A' }}
                 </td>
