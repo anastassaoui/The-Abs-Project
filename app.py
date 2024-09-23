@@ -246,7 +246,6 @@ def process_code():
                (user['id'], time))
             db.connection.commit()
 
-            db.execute('''DELETE FROM temp_codes WHERE code = %s''', (code,))
             db.connection.commit()
 
             return '<h1>Code Validated Successfully! Your attendance has been recorded.</h1>'
