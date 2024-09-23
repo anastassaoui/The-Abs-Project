@@ -3,7 +3,7 @@ import os
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db, close_db
-import datetime
+from datetime import datetime, timezone, timedelta
 import psycopg2
 
 app = Flask(__name__)
@@ -16,7 +16,6 @@ def teardown(error):
     close_db(error)
 
 def get_current_user():
-    """Retrieve the current user from the session."""
     user_result = None
     if 'user' in session:
         user_email = session['user']
@@ -30,7 +29,6 @@ def get_current_user():
 
 
 def check_admin():
-    """Check if the current user is an admin."""
     user = get_current_user()
     if user:
         return user['admin'] == 1
@@ -86,7 +84,7 @@ def signup():
                         request.form['lastname'],
                         request.form['email'],
                         hashed_password,
-                        '0'))  # Default admin status for new users
+                        '0'))  # Default
             db.connection.commit()
             return redirect(url_for('signedup'))
         except psycopg2.IntegrityError:
@@ -97,6 +95,7 @@ def signup():
 
 
 
+####################################################################
 
 @app.route('/aboutus')
 def aboutus():
@@ -108,6 +107,7 @@ def aboutus():
 def contactus():
     return '<h2>Add later</h2>'
 
+#####################################################################
 
 
 @app.route('/student')
@@ -231,7 +231,7 @@ def process_code():
         if generated_time.tzinfo is None:
             generated_time = generated_time.replace(tzinfo=timezone.utc)
 
-        current_time = datetime.datetime.now(datetime.timezone.utc)  #timezone-aware ma 5dmat 7ta fa9satni
+        current_time = datetime.now(timezone.utc)  #timezone-aware ma 5dmat 7ta fa9satni
 
         print(f"Generated Code: {generated_code}")
         print(f"Generated Time: {generated_time}")
@@ -240,9 +240,10 @@ def process_code():
 
         # Check if code matches and is within the time limit
         if code == generated_code and (current_time - generated_time).total_seconds() <= 30:
+            time = datetime.now(timezone.utc) + timedelta(hours=1)
             db.execute('''INSERT INTO presence (userid, date, scannedat)
-                           VALUES (%s, CURRENT_DATE, NOW())''',
-                       (user['id'],))
+                   VALUES (%s, CURRENT_DATE, %s)''',
+               (user['id'], time))
             db.connection.commit()
 
             db.execute('''DELETE FROM temp_codes WHERE code = %s''', (code,))
