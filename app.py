@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db, close_db
 from datetime import datetime, timezone, timedelta
 import psycopg2
+from datetime import timezone
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -40,7 +42,6 @@ def check_admin():
 def index():
     user = get_current_user()
     return render_template('index.html', user=user)
-
 
 
 
@@ -187,6 +188,21 @@ def teacher():
 
 
 
+
+@app.route('/validated')
+def validated():
+    user = get_current_user()
+    return render_template('validated.html', user=user)
+
+
+@app.route('/not_validated')
+def not_validated():
+    user = get_current_user()
+    return render_template('note_validated.html', user=user)
+
+
+
+
 @app.route('/generate_code')
 def generate_code():
     if not check_admin():
@@ -202,10 +218,6 @@ def generate_code():
     db.connection.commit()
     
     return render_template('teacher.html', code=code)
-
-
-
-from datetime import timezone
 
 @app.route('/process_code', methods=['POST'])
 def process_code():
@@ -248,9 +260,8 @@ def process_code():
 
             db.connection.commit()
 
-            return '<h1>Code Validated Successfully! Your attendance has been recorded.</h1>'
-
-    return '<h1>Invalid or Expired Code</h1>'
+            return render_template('validated.html', code=code)
+    return render_template('not_validated.html', code=code)
 
 
 

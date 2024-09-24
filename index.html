@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="../static/index.css" />
     <link rel="stylesheet" type="text/css" href="../index.css" />
-    <title>Student History</title>
+    <title>Scan Success</title>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -18,81 +18,53 @@
   >
     <!-- Header -->
     <header
-      class="flex h-24 items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6"
+    class="group flex h-fit items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6 md:duration-1000 +
+    "
+  >
+    <h1
+      class="rounded-lg cursor-pointer border-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:outline-2 group-hover:text-yellow-500 hover:underline sm:text-5xl md:h-fit md:py-1 md:text-8xl md:duration-700"
     >
-      <h1
-        class="rounded-lg border-black  px-4 py-2 text-3xl font-extrabold text-white transition  hover:border-yellow-800  sm:text-5xl md:text-6xl hover:text-yellow-300 duration-1000 cursor-pointer"
-      >
-        GESTION D'ABSENCE
-      </h1>
+      Absence Management
+    </h1>
 
-      <nav class="mt-2 sm:mt-0">
-        <ul
-          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0 md:space-x-40 duration-1000 "
+    <nav class="mt-2 sm:mt-0">
+      <ul
+        class="flex flex-col space-y-2 sm:flex-row sm:space-x-8 sm:space-y-0 md:mr-6 md:mt-6 md:space-x-16"
+      >
+        <li
+          class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline  group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
         >
-          <li
-            class="text-base font-extrabold text-white hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl duration-1000"
-          >
-            <a href="{{ url_for('student') }}">BACK</a>
-          </li>
-          <li
-            class="text-base font-extrabold text-white hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl duration-1000"
-          >
-            <a href="{{ url_for('contactus') }}">CONTACT US</a>
-          </li>
-          <li
-            class="text-base font-extrabold text-white hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl duration-1000"
-          >
-            <a href="{{ url_for('index') }}">DISCONNECT</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+          <a href="{{ url_for('index') }}">BACK</a>
+        </li>
+        <li
+          class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline  group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
+        >
+          <a href="{{ url_for('aboutus') }}">ABOUT US</a>
+        </li>
+        <li
+          class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline  group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
+        >
+          <a href="{{ url_for('contactus') }}">CONTACT US</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
     <!-- Main content -->
-    <main class="flex-grow p-4">
-      <div class="container mx-auto mt-9 rounded-lg bg-white shadow-md">
-        <h1
-          class="mb-8 ml-7 mt-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-black"
-        >
-          Your Scan History
-        </h1>
-
-        <!-- Table -->
-        <div class="mx-7 mt-6">
-          <table class="mt-6 min-w-full rounded-lg bg-white shadow-md">
-            <thead class="bg-gray-100 text-gray-700">
-              <tr class="border-b border-gray-200">
-                <th class="p-3 text-center font-bold hover:text-white duration-1000 bg-yellow-500 ">Date</th>
-                <th class="p-3 text-center font-bold hover:text-white duration-1000 bg-yellow-500 ">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for record in attendance_records %}
-              <tr class="border-b border-gray-200">
-                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">{{ record['date'] }}</td>
-                <td class="p-3 text-center font-bold bg-yellow-100 hover:bg-yellow-300 duration-1000 border-2 border-yellow-400 hover:text-white">
-                  {{ record['scannedat'].strftime('%H:%M') if
-                  record['scannedat'] else 'N/A' }}
-                </td>
-              </tr>
-              {% else %}
-              <tr>
-                <td colspan="2" class="p-3 text-center">
-                  No attendance records found.
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+    <main class="flex flex-grow items-center justify-center p-4">
+      <div
+        class="relative rounded border border-green-400 bg-green-100 px-4 py-3 text-center text-green-700"
+        role="alert"
+      >
+        <strong class="font-bold cursor-pointer">Success!</strong>
+        <span class="block sm:inline cursor-pointer">You have successfully registered your presence.</span>
       </div>
     </main>
 
     <!-- Footer -->
     <footer class="mt-auto bg-yellow-800 py-3 text-white">
       <div class="container mx-auto text-center text-sm sm:text-base">
-        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+        <p>&copy; 2024 PIC FSTS. All rights reserved.</p>
       </div>
     </footer>
   </body>

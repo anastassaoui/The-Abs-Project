@@ -29,18 +29,18 @@
 
 CREATE TABLE users (
     id serial PRIMARY KEY,
-    firstname TEXT NOT NULL, -- first name of the user
-    lastname TEXT NOT NULL, -- last name of the user
-    email TEXT NOT NULL UNIQUE, -- email field added, unique constraint to ensure no duplicate emails
+    firstname TEXT NOT NULL, 
+    lastname TEXT NOT NULL, 
+    email TEXT NOT NULL UNIQUE, ls
     password TEXT NOT NULL,
-    admin BOOLEAN NOT NULL -- true for professor, false for students
+    admin BOOLEAN NOT NULL 
 );
 
 CREATE TABLE presence (
     id serial PRIMARY KEY,
-    userid INTEGER NOT NULL, -- reference to users table
-    date DATE NOT NULL, -- date of attendance
-    scannedat TIMESTAMP, -- time of QR code scan
+    userid INTEGER NOT NULL, 
+    date DATE NOT NULL, 
+    scannedat TIMESTAMP, 
     FOREIGN KEY (userid) REFERENCES users (id)
 );
 

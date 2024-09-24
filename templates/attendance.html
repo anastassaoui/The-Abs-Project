@@ -20,21 +20,21 @@
       class="flex h-24 items-center justify-between border border-yellow-800 bg-yellow-800 p-4 sm:p-6"
     >
       <h1
-        class="rounded-lg border-black bg-black px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:bg-amber-500 sm:text-5xl md:text-6xl"
+        class="rounded-lg border-black  px-4 py-2 text-xl font-extrabold text-white transition duration-300 hover:border-yellow-800 hover:text-yellow-500 duration-1000 cursor-pointer sm:text-5xl md:text-6xl"
       >
         GESTION D'ABSENCE
       </h1>
       <nav class="mt-2 sm:mt-0">
         <ul
-          class="flex flex-col space-y-2 sm:flex-row sm:space-x-10 sm:space-y-0"
+          class="flex flex-col space-y-2 sm:flex-row md:space-x-32 sm:space-y-0"
         >
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white duration-1000 hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl "
           >
             <a href="{{ url_for('student') }}">BACK</a>
           </li>
           <li
-            class="text-base font-extrabold text-black hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl"
+            class="text-base font-extrabold text-white duration-1000 hover:text-yellow-200 hover:underline sm:mx-2 sm:text-xl "
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -43,13 +43,12 @@
     </header>
 
     <!-- Main content -->
-    <main class="flex flex-grow flex-col items-center p-4">
-      <h1 class="mt-5 text-center text-2xl font-extrabold sm:text-3xl">
-        Welcome!
+    <main class="flex flex-grow flex-col items-center p-4 md:mt-32">
+      <h1 class="mt-5 text-center text-2xl font-extrabold sm:text-3xl cursor-pointer">
+        Hello Again
       </h1>
-      <p class="mt-5 text-center text-lg font-bold sm:text-xl">
-        To register your attendance, please enter the code displayed on the
-        screen below:
+      <p class="mt-5 text-center text-lg font-bold sm:text-xl capitalize hover:text-red-500 duration-1000 cursor-pointer ">
+        To register your attendance, please enter the code Given
       </p>
 
       <!-- Code Input Form -->
@@ -60,11 +59,12 @@
             name="code"
             placeholder="Enter Code"
             required
-            class="rounded-lg border-2 border-black px-4 py-2"
+            class="rounded-lg border-2 border-black px-4 py-2 hover:bg-yellow-200 duration-1000 md:mr-10"
           />
           <button
             type="submit"
-            class="mt-4 rounded-lg bg-yellow-600 px-4 py-2 text-white shadow-lg hover:bg-yellow-700"
+            class="mt-4 rounded-lg bg-yellow-600 px-4 py-2 text-white shadow-lg hover:bg-yellow-700 duration-1000 
+            font-bold"
           >
             Submit Code
           </button>
@@ -75,7 +75,7 @@
     <!-- Footer -->
     <footer class="mt-auto bg-yellow-800 py-3 text-white">
       <div class="container mx-auto text-center text-sm sm:text-base">
-        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+        <p>&copy; 2024 PIC FSTS. All rights reserved.</p>
       </div>
     </footer>
   </body>

@@ -18,11 +18,11 @@
   >
     <!-- Header -->
     <header
-      class="relative flex h-24 items-center border-b border-yellow-800 bg-yellow-800 px-4"
+      class=" group relative flex h-24 items-center border-b border-yellow-800 bg-yellow-800 px-4"
     >
       <!-- Title -->
       <h1
-        class="rounded-lg bg-black px-4 py-3 text-4xl font-extrabold text-white hover:bg-yellow-400"
+        class="rounded-lg  px-4 py-3 text-4xl font-extrabold text-white  md:h-fit md:text-7xl group-hover:text-yellow-500 duration-1000"
       >
         GESTION D'ABSENCE
       </h1>
@@ -32,20 +32,20 @@
         class="absolute left-0 top-0 w-full bg-yellow-800 sm:relative sm:left-auto sm:right-0 sm:w-auto sm:bg-transparent lg:ml-52"
       >
         <ul
-          class="flex flex-col space-y-2 p-4 sm:flex-row sm:space-x-6 sm:space-y-0 sm:p-0"
+          class="flex flex-col space-y-2 p-4 sm:flex-row sm:space-x-6 sm:space-y-0 sm:p-0 md:space-x-24 md:ml-32"
         >
           <li
-            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
+            class="text-xl md: font-extrabold text-white hover:text-yellow-500 duration-1000 hover:underline"
           >
             <a href="{{ url_for('attendance') }}">SCAN PRESENCE</a>
           </li>
           <li
-            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
+            class="text-xl md: font-extrabold text-white hover:text-yellow-500 duration-1000 hover:underline"
           >
             <a href="{{ url_for('historystudent') }}">PRESENCE HISTORY</a>
           </li>
           <li
-            class="text-xl font-extrabold text-white hover:text-yellow-200 hover:underline"
+            class="text-xl md: font-extrabold text-white hover:text-yellow-500 duration-1000 hover:underline"
           >
             <a href="{{ url_for('index') }}">DISCONNECT</a>
           </li>
@@ -56,51 +56,47 @@
     <!-- Main content -->
     <main class="mt-24 flex-grow px-4">
       {% if user %}
-      <h1>Welcome, {{ user.firstname }}!</h1>
+      <h1 class="text-xl font-bold hover:scale-110 hover:text-red-500 duration-1000 cursor-pointer md:text-6xl shadow-2xl">Good To See You Again, {{ user.firstname }}!</h1>
       {% else %}
-      <h1>User not logged in!</h1>
+      <h1 class="text-xl font-bold hover:scale-110 hover:text-red-500 duration-1000 cursor-pointer md:text-6xl">User not logged in!</h1>
       {% endif %}
 
-      <p class="mt-5 text-xl font-bold hover:text-yellow-700">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
-        adipisci corrupti, sed ad neque rem facere totam doloribus tempora
-        repellat ex. Dicta eaque hic impedit quo soluta obcaecati perferendis
-        ullam!
+      <p class="mt-5 text-xl font-bold hover:text-yellow-900 cursor-pointer duration-1000">
+        Welcome to our attendance management system! Here, you can easily track your attendance and view your history. Ensure your presence in each class by inserting the code your instructor will provide you with. Stay up to date and never miss out on important sessions!
       </p>
       <div
-        class="mb-16 mt-24 flex flex-col space-y-8 sm:flex-row sm:space-x-8 sm:space-y-0 lg:ml-64"
+        class="mb-16 mt-24 flex flex-col space-y-8 sm:flex-row sm:space-x-8 sm:space-y-0 lg:ml-64 justify-center"
       >
         <div
-          class="h-80 w-full rounded-2xl border-2 border-black p-4 hover:bg-yellow-700 sm:w-96"
+          class="group h-80 w-full rounded-2xl border-2 border-black p-4 hover:bg-yellow-700 sm:w-96 duration-1000 md:-ml-56"
         >
-          <h1 class="mb-4 text-center text-2xl font-extrabold hover:underline">
+          <h1 class="mb-4 text-center text-2xl font-extrabold group-hover:underline duration-1000 cursor-pointer group-hover:text-yellow-400 ">
             SCAN PRESENCE
           </h1>
-          <p class="mb-4 text-center text-lg font-bold hover:text-yellow-400">
-            To prove your presence in class, simply scan the QR code provided by
-            your instructor. This will automatically register your attendance
+          <p class="mb-4 text-center text-lg font-bold  group-hover:text-yellow-400 duration-1000 cursor-pointer">
+            To prove your presence in class, simply insert the code provided. This will automatically register your attendance
             and update your presence history.
           </p>
           <a
             href="{{ url_for('attendance') }}"
-            class="block text-center text-sm font-bold underline hover:text-white"
+            class="block text-center text-sm font-bold underline  group-hover:text-yellow-200 md:mt-12 duration-1000"
             >Get started</a
           >
         </div>
         <div
-          class="h-80 w-full rounded-2xl border-2 border-black p-4 shadow-2xl shadow-black hover:bg-yellow-700 sm:w-96"
+          class=" group h-80 w-full rounded-2xl border-2 border-black p-4 shadow-2xl shadow-black hover:bg-yellow-700 sm:w-96 duration-1000  "
         >
-          <h1 class="mb-4 text-center text-2xl font-extrabold hover:underline">
+          <h1 class="mb-4 text-center text-2xl font-extrabold group-hover:underline cursor-pointer group-hover:text-yellow-400 duration-1000">
             PRESENCE HISTORY
           </h1>
-          <p class="mb-4 text-center text-lg font-bold hover:text-yellow-400">
+          <p class="mb-4 text-center text-lg font-bold  group-hover:text-yellow-400 duration-1000 cursor-pointer">
             The application allows users to rewind and check their presence
             history, providing easy access to a comprehensive, detailed record
             of all their past attendance and participation.
           </p>
           <a
             href="{{ url_for('historystudent') }}"
-            class="block text-center text-sm font-bold underline hover:text-white"
+            class="block text-center text-sm font-bold underline  group-hover:text-yellow-200 duration-1000"
             >Get started</a
           >
         </div>
@@ -110,7 +106,7 @@
     <!-- Footer -->
     <footer class="bg-yellow-800 py-3 text-white">
       <div class="container mx-auto text-center">
-        <p>&copy; 2024 XXXXXXXX. All rights reserved.</p>
+        <p>&copy; 2024 PIC FSTS. All rights reserved.</p>
       </div>
     </footer>
   </body>
