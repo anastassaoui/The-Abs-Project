@@ -37,7 +37,7 @@
           <li
             class="text-xl md: font-extrabold text-white hover:text-yellow-500 duration-1000 hover:underline"
           >
-            <a href="{{ url_for('attendance') }}">SCAN PRESENCE</a>
+            <a href="{{ url_for('attendance') }}">REGISTER PRESENCE</a>
           </li>
           <li
             class="text-xl md: font-extrabold text-white hover:text-yellow-500 duration-1000 hover:underline"
@@ -56,7 +56,7 @@
     <!-- Main content -->
     <main class="mt-24 flex-grow px-4">
       {% if user %}
-      <h1 class="text-xl font-bold hover:scale-110 hover:text-red-500 duration-1000 cursor-pointer md:text-6xl shadow-2xl">Good To See You Again, {{ user.firstname }}!</h1>
+      <h1 class="text-xl font-extrabold hover:scale-110 hover:text-red-500 duration-1000 cursor-pointer md:text-6xl shadow-2xl">Good To See You Again, {{ user.firstname }}!</h1>
       {% else %}
       <h1 class="text-xl font-bold hover:scale-110 hover:text-red-500 duration-1000 cursor-pointer md:text-6xl">User not logged in!</h1>
       {% endif %}
