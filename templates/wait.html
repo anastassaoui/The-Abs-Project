@@ -34,7 +34,7 @@
         <li
           class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline  group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
         >
-          <a href="{{ url_for('index') }}">BACK</a>
+          <a href="{{ url_for('student') }}">BACK</a>
         </li>
         <li
           class="text-base font-extrabold text-white hover:text-yellow-400 hover:underline  group-hover:underline sm:mx-2 sm:text-xl md:text-2xl md:duration-700"
@@ -53,11 +53,11 @@
     <!-- Main content -->
     <main class="flex flex-grow items-center justify-center p-4">
       <div
-        class="relative rounded border border-green-400 bg-green-100 px-4 py-3 text-center text-green-700"
+        class="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-center text-red-700"
         role="alert"
       >
-        <strong class="font-bold">Success!</strong>
-        <span class="block sm:inline">You have successfully registered your presence.</span>
+        <strong class="font-bold capitalize cursor-pointer">ERROR!</strong>
+        <span class="block sm:inline capitalize cursor-pointer">You can't revisit attandance registration for 2 hours from last succesful use </span>
       </div>
     </main>
 
@@ -67,6 +67,5 @@
         <p>&copy; 2024 PIC FSTS. All rights reserved.</p>
       </div>
     </footer>
-    
   </body>
 </html>

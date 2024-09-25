@@ -50,3 +50,11 @@ CREATE TABLE temp_codes (
     generated_at TIMESTAMP NOT NULL
 );
 
+CREATE TABLE code_usage (
+    id serial PRIMARY KEY,
+    code_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (code_id) REFERENCES temp_codes (id),
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    UNIQUE (code_id, user_id)  -- Ensure each user can only use a specific code once
+);

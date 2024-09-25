@@ -126,7 +126,18 @@ def attendance():
     user = get_current_user()
     if not user:
         return redirect(url_for('signin'))
+
+    # Check if last attendance time is set in the session
+    if 'last_attendance_time' in session:
+        last_attendance_time = session['last_attendance_time']
+        current_time = datetime.now(timezone.utc)
+
+        # Allow access only if more than 1 hour has passed since last attendance
+        if (current_time - last_attendance_time).total_seconds() < 3600:
+            return '<h1>You cannot access attendance at this time. Please try again later.</h1>'
+
     return render_template('attendance.html', user=user)
+
 
 
 
@@ -208,7 +219,7 @@ def generate_code():
     if not check_admin():
         return abort(403)
 
-    code = str(uuid.uuid4().hex[:6].upper())
+    code = str(uuid.uuid4().hex[:7])
 
     db = get_db()
     
@@ -228,7 +239,8 @@ def process_code():
     code = request.form['code']
     db = get_db()
     
-    db.execute('''SELECT code, generated_at
+    # Fetch the latest code record
+    db.execute('''SELECT id, code, generated_at
                    FROM temp_codes
                    WHERE code = %s
                    ORDER BY generated_at DESC
@@ -236,32 +248,47 @@ def process_code():
     code_record = db.fetchone()
     
     if code_record:
-        generated_code = code_record['code']
+        code_id = code_record['id']
         generated_time = code_record['generated_at']
 
-        # If generated_time is naive, make it timezone-aware (assuming it's in UTC)
+        # Make generated_time timezone-aware if necessary
         if generated_time.tzinfo is None:
             generated_time = generated_time.replace(tzinfo=timezone.utc)
 
-        current_time = datetime.now(timezone.utc)  #timezone-aware ma 5dmat 7ta fa9satni
+        current_time = datetime.now(timezone.utc)
 
-        print(f"Generated Code: {generated_code}")
-        print(f"Generated Time: {generated_time}")
-        print(f"Current Time: {current_time}")
-        print(f"Time Difference: {(current_time - generated_time).total_seconds()} seconds")
+        # Check if the user has already used this code
+        db.execute('''  SELECT *
+                        FROM code_usage *
+                        WHERE code_id = %s AND user_id = %s''', (code_id, user['id']))
+        usage_record = db.fetchone()
 
-        # Check if code matches and is within the time limit
-        if code == generated_code and (current_time - generated_time).total_seconds() <= 30:
+        # Check if the code is within the time limit
+        if usage_record:
+            return render_template('not_allowed.html', code=code)
+        
+        # If the user hasn't used the code, register their attendance
+        if (current_time - generated_time).total_seconds() <= 30:
             time = datetime.now(timezone.utc) + timedelta(hours=1)
             db.execute('''INSERT INTO presence (userid, date, scannedat)
-                   VALUES (%s, CURRENT_DATE, %s)''',
-               (user['id'], time))
+                           VALUES (%s, CURRENT_DATE, %s)''',
+                       (user['id'], time))
             db.connection.commit()
 
+            # Log the usage of the code
+            db.execute('''INSERT INTO code_usage (code_id, user_id) VALUES (%s, %s)''', (code_id, user['id']))
             db.connection.commit()
+
+            # Set the last attendance time in the session
+            session['last_attendance_time'] = datetime.now(timezone.utc)
 
             return render_template('validated.html', code=code)
+    else:
+        return render_template('not_validated.html', code=code)
+
     return render_template('not_validated.html', code=code)
+
+
 
 
 
